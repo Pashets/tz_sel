@@ -1,0 +1,11 @@
+class Xpath():
+    login_xpath = "//input[@type='text']"
+    password_xpath = "//input[@name='password']"
+    sign_in_button_xpath = "//button[@type='submit']"
+    write_mail_button_xpath = "//button[@class='button primary compose']"
+    for_whom_input_field_xpath = "//input[@name='toFieldInput']"
+    mail_text_input_field_xpath = "//div[@class='mce-edit-area mce-container mce-panel mce-stack-layout-item mce-last']/iframe"
+    mail_theme_input_field_xpath = "//input[@name='subject']"
+    send_mail_button_xpath = "//div[@class='sendmsg__bottom-controls']/button[1]"
+    incoming_mails_button_xpath = "//a[@id='0']"
+    delete_selected_mails_button_xpath = "//div[@class='msglist__controls']//a[@data-folder='10004']"

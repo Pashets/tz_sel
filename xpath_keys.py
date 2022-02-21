@@ -1,4 +1,4 @@
-class Xpath():
+class Xpath(object):
     login_xpath = "//input[@type='text']"
     password_xpath = "//input[@name='password']"
     sign_in_button_xpath = "//button[@type='submit']"

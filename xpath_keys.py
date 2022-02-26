@@ -9,3 +9,4 @@ class Xpath(object):
     send_mail_button_xpath = "//div[@class='sendmsg__bottom-controls']/button[1]"
     incoming_mails_button_xpath = "//a[@id='0']"
     delete_selected_mails_button_xpath = "//div[@class='msglist__controls']//a[@data-folder='10004']"
+    add_videofile = "//button[@class='action attachments-file-button button outline']"

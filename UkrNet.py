@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 import random
+import os
 import string
 from selenium.webdriver.common.by import By
 from xpath_keys import Xpath
@@ -10,8 +11,14 @@ from Browser import Browser
 
 
 class UkrNet(Browser):
-    login = "qaautomation"
-    password = "132q465w"
+    login = "qaautomation"  # здесь в ковычках пишите вашу почту на укр нете без добавленя @ukr.net
+    password = "132q465w"  # здесь в ковычках пароль
+
+    def add_file(self):
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        file_path = os.path.join(current_dir, 'IMG_0647.MP4')
+        add_video = Browser.find_element_by_xpath_key(self, Xpath.add_videofile)
+        add_video.send_keys(file_path)
 
     @staticmethod
     def generate_str():
@@ -54,12 +61,12 @@ class UkrNet(Browser):
 
     def __create_mail_to_my_email_adress(self):
         self.go_to_writing_mail_page()
-        my_login = "qaautomation@ukr.net"
+        my_login = "r77-secretar@russianpost.ru"  # здесь ввести почту которую хотите заспамить
         self.input_for_whom_mail(my_login)
 
     def input_mail_theme(self):
         mail_theme_input_field = Browser.find_element_by_xpath_key(self, Xpath.mail_theme_input_field_xpath)
-        mail_theme = self.generate_str()
+        mail_theme = "Россиянам"
         mail_theme_input_field.send_keys(mail_theme)
         assert mail_theme == Browser.find_element_by_xpath_key(self, Xpath.mail_theme_input_field_xpath).get_attribute(
             'value')
@@ -67,7 +74,8 @@ class UkrNet(Browser):
     def __create_mail_with_random_10_symbols_in_theme_and_message_text(self):
         self.__create_mail_to_my_email_adress()
         self.input_mail_theme()
-        self.input_mail_text(self.generate_str())
+        self.input_mail_text(
+            "Либо ваша армия вернется в россию либо окажется уничтоженнй, на пару с вашей экономикой и жизнью, подумайте")
 
     def input_mail_text(self, text):
         mail_text_input_field = Browser.find_element_by_xpath_key(self, Xpath.mail_text_input_field_xpath)
@@ -77,10 +85,10 @@ class UkrNet(Browser):
         self.__create_mail_with_random_10_symbols_in_theme_and_message_text()
         self.send_mail_button_click()
 
-    def send_15_created_messages(self):
-        self.count_letters_before_sending_mails = int(Browser.find_element_by_xpath_key(self, "//a[@id='0']//span["
-                                                                                              "@class='sidebar__list-link-count']").text)
-        for i in range(15):
+    def send_1000_created_messages(self):
+        # self.count_letters_before_sending_mails = int(Browser.find_element_by_xpath_key(self, "//a[@id='0']//span["
+        #                                                                                      "@class='sidebar__list-link-count']").text)
+        for i in range(1000):
             self.__send_mail()
 
     def go_to_incoming_mails_page(self):
@@ -88,10 +96,10 @@ class UkrNet(Browser):
         Browser.element_click(incoming_mails_button)
         assert Browser.find_element_by_xpath_key(self, "//div[@class='msglist__controls']/a[1]").text == "Переслати"
 
-    def save_mails_themes_and_messages_in_dict(self):
-        WebDriverWait(self.browser, 10).until(
-            EC.text_to_be_present_in_element((By.XPATH, "//a[@id='0']//span[@class='sidebar__list-link-count']"),
-                                             str(self.count_letters_before_sending_mails + 15)))
+        # def save_mails_themes_and_messages_in_dict(self):
+        #    WebDriverWait(self.browser, 10).until(
+        #        EC.text_to_be_present_in_element((By.XPATH, "//a[@id='0']//span[@class='sidebar__list-link-count']"),
+        #                                         str(self.count_letters_before_sending_mails + 15)))
         self.go_to_incoming_mails_page()
         for i in range(1, 16):
             key_xpath = "//div[@class='screen__content']//tbody/tr[{}]//td[@class='msglist__row-subject']/a/strong".format(
@@ -144,8 +152,8 @@ class UkrNet(Browser):
 if __name__ == "__main__":
     ukrnet = UkrNet()
     ukrnet.sign_by_login_and_password()
-    ukrnet.send_15_created_messages()
-    ukrnet.save_mails_themes_and_messages_in_dict()
-    ukrnet.send_mail_with_dict()
-    ukrnet.delete_last_15_created_mails_without_last()
+    ukrnet.send_1000_created_messages()
+    # ukrnet.save_mails_themes_and_messages_in_dict()
+    # ukrnet.send_mail_with_dict()
+    # ukrnet.delete_last_15_created_mails_without_last()
     ukrnet.browser_closing()
